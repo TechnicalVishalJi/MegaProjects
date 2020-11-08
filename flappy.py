@@ -55,12 +55,12 @@ def maingame():
 	global upperPipes
 	upperPipes = [
 		{"x": SCREENWIDTH + 200, 'y': newPipe1[0]['y']},
-		{'x': (SCREENWIDTH +200) + (SCREENWIDTH/0.5), 'y': newPipe2[0]['y']}
+		{'x': (SCREENWIDTH +200) + (SCREENWIDTH/2), 'y': newPipe2[0]['y']}
 	]
 	global lowerPipes
 	lowerPipes = [
 		{'x': SCREENWIDTH +200, 'y': newPipe1[1]['y']},
-		{'x': (SCREENWIDTH +200) +(SCREENWIDTH/0.5), 'y': newPipe2[1]['y']}
+		{'x': (SCREENWIDTH +200) +(SCREENWIDTH/2), 'y': newPipe2[1]['y']}
 	]
 	
 	pipeVelX = -4
@@ -106,14 +106,14 @@ def maingame():
 			upperPipe['x'] += pipeVelX
 			lowerPipe['x'] += pipeVelX
 		
-		if 0>upperPipes[0]['x']<5:
+		if 0<upperPipes[0]['x']<5:
 			newpipe = getRandomPipe()
 			upperPipes.append(newpipe[0])
 			lowerPipes.append(newpipe[1])
-		if upperPipes[0]['x'] < -10:
-			upperPipes.pop()
-			lowerPipes.pop()
-		
+		if upperPipes[0]['x'] < -GAME_SPRITES['pipe'][0].get_width():
+			upperPipes.pop(0)
+			lowerPipes.pop(0)
+            
 		SCREEN.blit(GAME_SPRITES['background'], (0,0))
 		for upperPipe, lowerPipe in zip(upperPipes, lowerPipes):
 			SCREEN.blit(GAME_SPRITES['pipe'][0], (upperPipe['x'], upperPipe['y']))
@@ -129,12 +129,12 @@ def maingame():
 		for digit in myDigits:
 			SCREEN.blit(GAME_SPRITES['numbers'][digit], (xOffSet, 100))
 			xOffSet += GAME_SPRITES['numbers'][digit].get_width()
-			pygame.display.update()
-			FPSCLOCK.tick(FPS)
+		pygame.display.update()
+		FPSCLOCK.tick(FPS)
 		
 def isCollide(PLAYERX, PLAYERY, pipeX, pipeY):
 	#checks the collision between player and pipes
-	if (PLAYERY>GROUNDY) or (PLAYERY<0):
+	if (PLAYERY>1175) or (PLAYERY<0):
 		GAME_SOUNDS['hit'].play()
 		return True
 		
